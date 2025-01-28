@@ -6,7 +6,7 @@ class Conexion:
         self.conexion = mysql.connector.connect(
             host = "localhost",
             username = "root",
-            password = "Ingmunoz0206*",
+            password = "*************",
             database = "sistema_tickets"
         )
      

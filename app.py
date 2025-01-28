@@ -12,13 +12,11 @@ def ventana():
     app = Registro_ingeniero(ventana)
     app.mainloop()
 
-#La clase hereda de 'Frame', que recibe un master (ventana principal o raíz) como argumento.
 class Registro_ingeniero(Frame):
 
     def __init__(self, master):
         super().__init__(master)
 
-        #self.master = master
         self.background = '#06283D'
         self.letterbg = '#fff'
 
@@ -33,6 +31,7 @@ class Registro_ingeniero(Frame):
         self.crear_widgets()
 
     def crear_widgets(self):
+        '''Crea la tabla, botones, etiquetas y entradas'''
         Label(self.master, text='Bienvenido Usuario', height=1, width=10, bg='#f0687c', fg=self.letterbg, font=('Arial', '12', 'bold')).pack(side=TOP,fill=X)
         Label(self.master, text='R E G I S T R O S   D E   I N G E N I E R O', height=2, width=10, bg='#c36464', fg=self.letterbg, font=('Arial', '12', 'bold')).pack(side=TOP,fill=X)
         Entry(self.master, textvariable=self.nombre_buscar, width=15, font=('Arial','10')).place(x=650,y=35)
@@ -84,12 +83,11 @@ class Registro_ingeniero(Frame):
         estilo.configure("Treeview", font= ('Helvetica', 10, 'bold'), foreground='black',  background='white')
         estilo.map('Treeview',background=[('selected', '#c36464')], foreground=[('selected','black')] )
 
-        #.bind() = Se utiliza para enlazar un evento con una función. Ejem: Obtener los valores de una fila 
-        # a traves de un click
         self.tabla.bind("<<TreeviewSelect>>", self.obtener_fila)  #Obtiene los valores de una fila.
         self.tabla.bind("<Double-Button-1>", self.obtener_campos) #Pone los valores de una filas en cada Entry.
 
     def insertar_ingeniero(self):
+        '''Inserta datos en el Treeview'''
         try:
             identificacion = self.identificacion.get()
             nombre = self.nombre.get()
@@ -103,7 +101,6 @@ class Registro_ingeniero(Frame):
                 self.base_datos.insertar_registro(identificacion, nombre, correo, telefono, salario)
                 self.tabla.insert('',0, text = identificacion, values=datos)
                 
-        
         except Exception as e:
             self.mostrar_mensaje_error(f"Error inesperado: {str(e)}")
 
@@ -147,14 +144,11 @@ class Registro_ingeniero(Frame):
     
     
     def obtener_fila(self, event):
-        #.focus() = obtiene el item actualmente seleccionado
         fila_seleccionada = self.tabla.focus()
         if not fila_seleccionada:
             return
-        #.item() = obtiene la información de la fila u objeto seleccionado. Retorna un diccionario (datos).
+
         datos = self.tabla.item(fila_seleccionada)
-        #Se obtiene la clave 'values'. Se utiliza el indice [0] para acceder al primer valor de 'values',
-        #en este caso el nombre.
         self.nombre_borrar = datos['values'][0]
 
     def obtener_campos(self, event):
@@ -183,7 +177,6 @@ class Registro_ingeniero(Frame):
         self.master.destroy()
 
     def mostrar_mensaje_error(self, mensaje):
-        # Mostrar un cuadro de diálogo con el mensaje de error
         mb.showerror("Error", mensaje)
 
 ventana()
